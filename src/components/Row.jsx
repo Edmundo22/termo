@@ -1,0 +1,13 @@
+import Tile from './Tile.jsx'
+
+// letters: array de 5 caracteres (pode conter '')
+// states: array de 5 estados (ou undefined)
+export default function Row({ letters, states, invalid }) {
+  return (
+    <div className={'row' + (invalid ? ' invalid' : '')}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <Tile key={i} letter={letters[i] || ''} state={states && states[i]} />
+      ))}
+    </div>
+  )
+}
