@@ -803,7 +803,7 @@ const PALAVRAS = [
   'ZERBO', 'ZEROS', 'ZESTO', 'ZETTA', 'ZEUGO', 'ZIGUE', 'ZILRO', 'ZIMBO', 'ZINCO', 'ZINGA',
   'ZINHO', 'ZINIA', 'ZIRBO', 'ZIRRA', 'ZOEIA', 'ZOICO', 'ZOIDE', 'ZOILO', 'ZOINA', 'ZONAL',
   'ZONAS', 'ZOOSE', 'ZORRA', 'ZORRO', 'ZOUPO', 'ZOURA', 'ZUATE', 'ZUAVO', 'ZUCOS', 'ZULOS',
-  'ZUNDA', 'ZURCA', 'ZURPA',
+  'ZUNDA', 'ZURCA', 'ZURPA', 'POSTE',
 ]
 
 // Conjunto de palavras validas (normalizadas), incluindo todas as solucoes.

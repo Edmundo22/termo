@@ -1,33 +1,43 @@
 const MODES = [
-  { id: 'individual', label: 'TERMO' },
-  { id: 'dueto', label: 'DUETO' },
-  { id: 'quarteto', label: 'QUARTETO' },
+  { id: 'individual', label: 'termo' },
+  { id: 'dueto', label: 'dueto' },
+  { id: 'quarteto', label: 'quarteto' },
 ]
 
-export default function Header({ mode, onMode, onToggleTheme, dark }) {
+export default function Header({ mode, onMode, onToggleTheme, onHelp, dark }) {
   const current = MODES.find((m) => m.id === mode)
   return (
-    <header className="header">
-      <div className="header-side header-left">
-        <div className="modes">
-          {MODES.map((m) => (
-            <button
-              key={m.id}
-              className={'mode-btn' + (mode === m.id ? ' active' : '')}
-              onClick={() => onMode(m.id)}
-              title={m.label}
-            >
-              {m.label}
-            </button>
-          ))}
+    <>
+      <div className="topbar">
+        <div className="topbar-inner">
+          <nav className="modes">
+            {MODES.map((m) => (
+              <button
+                key={m.id}
+                className={'mode-btn' + (mode === m.id ? ' active' : '')}
+                onClick={() => onMode(m.id)}
+              >
+                {m.label}
+              </button>
+            ))}
+          </nav>
+          <button className="topbar-icon" onClick={onHelp} title="Como jogar">
+            &#9432;
+          </button>
         </div>
       </div>
-      <h1 className="title">{current.label}</h1>
-      <div className="header-side header-right">
-        <button className="icon-btn" onClick={onToggleTheme} title="Tema">
-          {dark ? '☀' : '☾'}
-        </button>
+
+      <div className="subhead">
+        <div className="subhead-side">
+          <button className="box-btn" onClick={onHelp} title="Como jogar">?</button>
+        </div>
+        <h1 className="title">{current.label.toUpperCase()}</h1>
+        <div className="subhead-side subhead-right">
+          <button className="box-btn" onClick={onToggleTheme} title="Tema">
+            {dark ? '☀' : '☾'}
+          </button>
+        </div>
       </div>
-    </header>
+    </>
   )
 }

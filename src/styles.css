@@ -1,27 +1,31 @@
 :root {
-  --app-bg: #0e1117;
-  --header-border: #2c2f33;
-  --text: #f4f4f4;
-  --text-dim: #9aa0a6;
-  --tile-border: #3a3a3c;
-  --tile-filled-border: #565758;
+  --app-bg: #6e6160;
+  --topbar-bg: #262626;
+  --text: #ffffff;
+  --text-dim: #b8aeac;
+  --tile-empty: rgba(0, 0, 0, 0.12);
+  --tile-border: rgba(0, 0, 0, 0.28);
+  --tile-filled-border: rgba(255, 255, 255, 0.45);
   --correct: #3aa394;
   --present: #d3ad69;
   --absent: #312a2c;
-  --key-bg: #818384;
+  --key-bg: #877d7c;
   --key-text: #ffffff;
+  --box-border: rgba(255, 255, 255, 0.5);
 }
 
 body.light {
-  --app-bg: #ffffff;
-  --header-border: #d4d6da;
+  --app-bg: #f3f3f3;
+  --topbar-bg: #2b2b2b;
   --text: #1a1a1b;
-  --text-dim: #787c7e;
-  --tile-border: #d3d6da;
-  --tile-filled-border: #878a8c;
-  --absent: #787c7e;
-  --key-bg: #d3d6da;
+  --text-dim: #6f6f6f;
+  --tile-empty: transparent;
+  --tile-border: #c7c7c7;
+  --tile-filled-border: #8a8a8a;
+  --absent: #9a9a9a;
+  --key-bg: #c3c3c3;
   --key-text: #1a1a1b;
+  --box-border: rgba(0, 0, 0, 0.35);
 }
 
 * { box-sizing: border-box; }
@@ -36,89 +40,110 @@ html, body {
   overflow-x: hidden;
 }
 
-.app {
-  max-width: 500px;
+/* ===== Barra superior (largura total) ===== */
+.topbar {
+  width: 100%;
+  background: var(--topbar-bg);
+  color: #fff;
+}
+.topbar-inner {
+  max-width: 1100px;
   margin: 0 auto;
-  height: 100vh;
+  height: 60px;
   display: flex;
-  flex-direction: column;
-  padding: 0 6px;
+  align-items: center;
+  padding: 0 24px;
+}
+.modes { display: flex; gap: 22px; }
+.mode-btn {
+  background: transparent;
+  border: none;
+  color: #8c8c8c;
+  font-size: 19px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+.mode-btn.active { color: #fff; }
+.topbar-icon {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
 }
 
-/* ===== Header ===== */
-.header {
-  display: flex;
-  align-items: center;
-  height: 50px;
-  border-bottom: 1px solid var(--header-border);
+/* ===== Subcabeçalho (título + ícones) ===== */
+.subhead {
   position: relative;
-}
-.header-side {
-  flex: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 64px;
   display: flex;
   align-items: center;
+  padding: 0 24px;
 }
-.header-right { justify-content: flex-end; }
+.subhead-side { flex: 1; display: flex; gap: 8px; }
+.subhead-right { justify-content: flex-end; }
 .title {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 700;
-  letter-spacing: 3px;
-  pointer-events: none;
+  letter-spacing: 2px;
 }
-.modes { display: flex; gap: 4px; }
-.mode-btn {
-  background: transparent;
-  color: var(--text-dim);
-  border: none;
+.box-btn {
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--box-border);
   border-radius: 4px;
-  padding: 5px 6px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-}
-.mode-btn.active { color: var(--correct); }
-.icon-btn {
   background: transparent;
-  border: none;
   color: var(--text);
-  font-size: 20px;
+  font-size: 17px;
+  font-weight: 700;
   cursor: pointer;
-  padding: 4px 8px;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== App ===== */
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px 8px;
 }
 
 /* ===== Mensagem flutuante ===== */
 .message-bar {
-  height: 24px;
+  height: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .message {
-  background: var(--text);
-  color: var(--app-bg);
-  padding: 5px 14px;
+  background: #fff;
+  color: #1a1a1b;
+  padding: 6px 16px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   animation: fade-in 0.1s ease;
 }
 
 /* ===== Tabuleiros ===== */
 .boards {
-  flex: 1;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
-  gap: 10px 22px;
-  padding: 6px 0;
-  overflow-y: auto;
+  align-items: flex-start;
+  gap: 18px 26px;
+  padding: 8px 0 18px;
 }
 .board { display: flex; flex-direction: column; gap: 5px; }
 
@@ -126,8 +151,9 @@ html, body {
 .row.invalid { animation: shake 0.5s; }
 
 .tile {
-  width: 52px;
-  height: 52px;
+  width: 56px;
+  height: 56px;
+  background: var(--tile-empty);
   border: 2px solid var(--tile-border);
   display: flex;
   align-items: center;
@@ -144,29 +170,30 @@ html, body {
 .tile.absent { background: var(--absent); border-color: var(--absent); color: #fff; }
 .tile.rv { animation: reveal 0.55s ease; }
 
-/* Atraso escalonado da virada por coluna */
 .row .tile.rv:nth-child(1) { animation-delay: 0s; }
 .row .tile.rv:nth-child(2) { animation-delay: 0.18s; }
 .row .tile.rv:nth-child(3) { animation-delay: 0.36s; }
 .row .tile.rv:nth-child(4) { animation-delay: 0.54s; }
 .row .tile.rv:nth-child(5) { animation-delay: 0.72s; }
 
-/* Dueto e Quarteto: tiles menores */
-.boards-dueto .tile { width: 44px; height: 44px; font-size: 24px; }
-.boards-quarteto .tile { width: 38px; height: 38px; font-size: 21px; }
+/* Dueto e Quarteto: tiles menores p/ caberem lado a lado */
+.boards-dueto .tile { width: 50px; height: 50px; font-size: 27px; }
+.boards-quarteto .tile { width: 44px; height: 44px; font-size: 23px; }
 
 /* ===== Teclado ===== */
 .keyboard {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 8px 0 12px;
+  gap: 7px;
+  padding: 4px 0 14px;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
 }
-.kb-row { display: flex; justify-content: center; gap: 5px; }
+.kb-row { display: flex; justify-content: center; gap: 6px; }
 .key {
   position: relative;
-  min-width: 0;
-  height: 54px;
+  height: 56px;
   border: none;
   border-radius: 4px;
   background: var(--key-bg);
@@ -176,7 +203,7 @@ html, body {
   text-transform: uppercase;
   cursor: pointer;
   flex: 1 1 0;
-  max-width: 42px;
+  max-width: 44px;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -184,7 +211,7 @@ html, body {
   transition: background 0.15s;
 }
 .key:active { transform: scale(0.94); }
-.key-action { max-width: 58px; flex: 1.5 1 0; font-size: 18px; }
+.key-action { max-width: 62px; flex: 1.6 1 0; font-size: 18px; }
 .key-label { position: relative; z-index: 2; }
 .key-segs { position: absolute; inset: 0; display: flex; z-index: 1; }
 .seg { flex: 1; }
@@ -193,7 +220,7 @@ html, body {
 .seg.absent { background: var(--absent); }
 .seg.none { background: transparent; }
 
-/* ===== Overlay fim de jogo ===== */
+/* ===== Overlay / Modais ===== */
 .overlay {
   position: fixed;
   inset: 0;
@@ -203,6 +230,7 @@ html, body {
   justify-content: center;
   z-index: 10;
   animation: fade-in 0.2s ease;
+  padding: 16px;
 }
 .modal {
   background: var(--app-bg);
@@ -210,10 +238,17 @@ html, body {
   border-radius: 12px;
   padding: 26px 28px;
   text-align: center;
-  max-width: 90%;
+  max-width: 420px;
+  width: 100%;
 }
+.modal-help { text-align: left; max-height: 86vh; overflow-y: auto; }
 .modal h2 { margin: 0 0 6px; font-size: 22px; }
 .modal-sub { color: var(--text-dim); margin: 0 0 14px; font-size: 14px; }
+.help-list { margin: 0 0 16px; padding-left: 18px; font-size: 14px; line-height: 1.5; }
+.help-list li { margin-bottom: 6px; }
+.help-examples .help-row { display: flex; gap: 5px; margin: 14px 0 6px; }
+.help-examples .tile { width: 40px; height: 40px; font-size: 22px; }
+.help-examples p { margin: 0 0 4px; font-size: 13px; color: var(--text-dim); }
 .solutions {
   display: flex;
   flex-wrap: wrap;
@@ -238,6 +273,7 @@ html, body {
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
+  margin-top: 6px;
 }
 
 /* ===== Animações ===== */
@@ -258,11 +294,13 @@ html, body {
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 
 /* ===== Responsivo ===== */
-@media (max-width: 500px) {
-  .tile { width: 46px; height: 46px; font-size: 26px; }
-  .boards-dueto .tile { width: 38px; height: 38px; font-size: 21px; }
+@media (max-width: 560px) {
+  .topbar-inner, .subhead { padding: 0 14px; }
+  .modes { gap: 14px; }
+  .mode-btn { font-size: 16px; }
+  .title { font-size: 26px; }
+  .tile { width: 50px; height: 50px; font-size: 27px; }
+  .boards-dueto .tile { width: 40px; height: 40px; font-size: 22px; }
   .boards-quarteto .tile { width: 32px; height: 32px; font-size: 18px; }
-  .title { font-size: 24px; letter-spacing: 2px; }
-  .mode-btn { padding: 4px 4px; font-size: 10px; }
-  .key { height: 48px; font-size: 13px; }
+  .key { height: 50px; font-size: 13px; }
 }
