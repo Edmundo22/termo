@@ -4,7 +4,7 @@ const MODES = [
   { id: 'quarteto', label: 'quarteto' },
 ]
 
-export default function Header({ mode, onMode, onToggleTheme, onHelp, dark }) {
+export default function Header({ mode, onMode, onHelp }) {
   const current = MODES.find((m) => m.id === mode)
   return (
     <>
@@ -32,11 +32,7 @@ export default function Header({ mode, onMode, onToggleTheme, onHelp, dark }) {
           <button className="box-btn" onClick={onHelp} title="Como jogar">?</button>
         </div>
         <h1 className="title">{current.label.toUpperCase()}</h1>
-        <div className="subhead-side subhead-right">
-          <button className="box-btn" onClick={onToggleTheme} title="Tema">
-            {dark ? '☀' : '☾'}
-          </button>
-        </div>
+        <div className="subhead-side subhead-right" />
       </div>
     </>
   )

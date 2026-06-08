@@ -3,14 +3,15 @@ import Row from './Row.jsx'
 // board = {
 //   rows: array de { letters: string[5], states: state[5] } já avaliadas,
 //   solved: bool,
-//   current: string (linha em digitação, ou ''),
+//   current: string[5] (linha em digitação, células livres),
+//   cursor: índice ativo (ou null),
 //   showCurrent: bool,
 //   invalid: bool,
 //   maxAttempts,
-//   reveal: string (solução para exibir quando perdeu)
 // }
-export default function Board({ board }) {
-  const { rows, current, showCurrent, invalid, maxAttempts, solved } = board
+// onSelect: callback ao clicar numa célula da linha atual
+export default function Board({ board, onSelect }) {
+  const { rows, current, cursor, showCurrent, invalid, maxAttempts, solved } = board
   const total = maxAttempts
   const filled = rows.length
   const blanks = total - filled - (showCurrent ? 1 : 0)
@@ -23,9 +24,11 @@ export default function Board({ board }) {
       {showCurrent && (
         <Row
           key="cur"
-          letters={current.padEnd(5).split('')}
+          letters={current}
           states={[]}
           invalid={invalid}
+          cursor={cursor}
+          onSelect={onSelect}
         />
       )}
       {Array.from({ length: Math.max(0, blanks) }).map((_, i) => (

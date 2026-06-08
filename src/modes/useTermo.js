@@ -22,7 +22,8 @@ export function useTermo(mode) {
 
   const [solutions, setSolutions] = useState([]) // normalizadas
   const [guesses, setGuesses] = useState([])      // normalizadas (uppercase)
-  const [current, setCurrent] = useState('')
+  const [current, setCurrent] = useState(['', '', '', '', '']) // 5 células livres
+  const [cursor, setCursor] = useState(0)                        // célula ativa
   const [invalid, setInvalid] = useState(false)
   const [message, setMessage] = useState('')
   const msgTimer = useRef(null)
@@ -30,7 +31,8 @@ export function useTermo(mode) {
   const newGame = useCallback(() => {
     setSolutions(bag.draw(numBoards).map(normalize))
     setGuesses([])
-    setCurrent('')
+    setCurrent(['', '', '', '', ''])
+    setCursor(0)
     setInvalid(false)
     setMessage('')
   }, [numBoards])
@@ -77,13 +79,14 @@ export function useTermo(mode) {
         rows,
         solved,
         current,
+        cursor: showCurrent ? cursor : null,
         showCurrent,
         invalid: showCurrent ? invalid : false,
         maxAttempts,
         reveal: ACCENTED[sol] || sol,
       }
     })
-  }, [solutions, guesses, solvedAt, current, invalid, gameOver, maxAttempts])
+  }, [solutions, guesses, solvedAt, current, cursor, invalid, gameOver, maxAttempts])
 
   // Estado de cada tecla por board (para o teclado colorido).
   const keyStates = useMemo(() => {
@@ -104,35 +107,65 @@ export function useTermo(mode) {
     return map
   }, [solutions, guesses, solvedAt])
 
+  const word = current.join('')
+
   const submit = useCallback(() => {
     if (gameOver) return
-    if (current.length < 5) {
+    if (!current.every(Boolean)) {
       setInvalid(true)
       flash('Faltam letras')
       setTimeout(() => setInvalid(false), 600)
       return
     }
-    if (!isValidGuess(current)) {
+    if (!isValidGuess(word)) {
       setInvalid(true)
       flash('Palavra não encontrada')
       setTimeout(() => setInvalid(false), 600)
       return
     }
-    setGuesses((prev) => [...prev, normalize(current)])
-    setCurrent('')
+    setGuesses((prev) => [...prev, normalize(word)])
+    setCurrent(['', '', '', '', ''])
+    setCursor(0)
     setInvalid(false)
-  }, [current, gameOver, flash])
+  }, [current, word, gameOver, flash])
+
+  // Seleciona um quadrado (digitação fora de ordem).
+  const selectCell = useCallback((index) => {
+    if (gameOver) return
+    if (index >= 0 && index < 5) setCursor(index)
+  }, [gameOver])
 
   const onKey = useCallback(
     (key) => {
       if (gameOver) return
       if (key === 'ENTER') return submit()
-      if (key === 'BACK') return setCurrent((c) => c.slice(0, -1))
+
+      if (key === 'BACK') {
+        const n = [...current]
+        if (n[cursor]) {
+          n[cursor] = ''
+          setCurrent(n)
+        } else {
+          const p = Math.max(0, cursor - 1)
+          n[p] = ''
+          setCurrent(n)
+          setCursor(p)
+        }
+        return
+      }
+
       if (/^[A-Z]$/.test(key)) {
-        setCurrent((c) => (c.length < 5 ? c + key : c))
+        const n = [...current]
+        n[cursor] = key
+        setCurrent(n)
+        // Avança para o próximo quadrado vazio (depois do atual; senão o 1º vazio).
+        let next = -1
+        for (let i = cursor + 1; i < 5; i++) if (!n[i]) { next = i; break }
+        if (next === -1) for (let i = 0; i < 5; i++) if (!n[i]) { next = i; break }
+        setCursor(next === -1 ? cursor : next)
       }
     },
-    [gameOver, submit]
+    [gameOver, submit, current, cursor]
   )
 
   // Teclado físico.
@@ -156,6 +189,7 @@ export function useTermo(mode) {
     boards,
     keyStates,
     onKey,
+    selectCell,
     newGame,
     gameOver,
     won,
