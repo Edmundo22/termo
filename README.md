@@ -49,7 +49,11 @@ src/
   App.jsx      # composição da interface
 ```
 
-As listas de palavras ficam em `src/data/` e podem ser ampliadas livremente.
+As listas de palavras ficam em `src/data/`:
+
+- `respostas.js` — soluções curadas (substantivos/adjetivos, sem nomes próprios nem verbos).
+- `validas.js` — ~8000 palavras de 5 letras aceitas como chute (sem nomes próprios e sem
+  verbos no infinitivo), derivadas de um dicionário PT-BR.
 
 ---
 

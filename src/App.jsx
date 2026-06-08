@@ -21,7 +21,6 @@ export default function App() {
       <Header
         mode={mode}
         onMode={setMode}
-        onNew={game.newGame}
         onToggleTheme={() => setDark((d) => !d)}
         dark={dark}
       />
