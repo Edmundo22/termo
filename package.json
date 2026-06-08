@@ -1,0 +1,20 @@
+{
+  "name": "termo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Réplica do jogo Termo (Wordle brasileiro) — modos Individual, Dueto e Quarteto. Sem API, sem banco de dados, sem limite diário.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2"
+  }
+}
