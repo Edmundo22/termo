@@ -1,27 +1,33 @@
 const MODES = [
-  { id: 'individual', label: 'Termo' },
-  { id: 'dueto', label: 'Dueto' },
-  { id: 'quarteto', label: 'Quarteto' },
+  { id: 'individual', label: 'TERMO' },
+  { id: 'dueto', label: 'DUETO' },
+  { id: 'quarteto', label: 'QUARTETO' },
 ]
 
 export default function Header({ mode, onMode, onToggleTheme, dark }) {
+  const current = MODES.find((m) => m.id === mode)
   return (
     <header className="header">
-      <h1 className="title">TERMO</h1>
-      <div className="modes">
-        {MODES.map((m) => (
-          <button
-            key={m.id}
-            className={'mode-btn' + (mode === m.id ? ' active' : '')}
-            onClick={() => onMode(m.id)}
-          >
-            {m.label}
-          </button>
-        ))}
+      <div className="header-side header-left">
+        <div className="modes">
+          {MODES.map((m) => (
+            <button
+              key={m.id}
+              className={'mode-btn' + (mode === m.id ? ' active' : '')}
+              onClick={() => onMode(m.id)}
+              title={m.label}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
       </div>
-      <button className="icon-btn" onClick={onToggleTheme} title="Tema">
-        {dark ? '☀' : '☾'}
-      </button>
+      <h1 className="title">{current.label}</h1>
+      <div className="header-side header-right">
+        <button className="icon-btn" onClick={onToggleTheme} title="Tema">
+          {dark ? '☀' : '☾'}
+        </button>
+      </div>
     </header>
   )
 }
